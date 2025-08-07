@@ -15,7 +15,7 @@ export class Entity {
             this.maxHealth = maxHealth;
             this.maxAttack = maxAttack;
             this.maxDefense = maxDefense;
-            this.currentHealth = maxHealth;
+            this.currentHealth = maxHealth; 
             this.currentAttack = maxAttack;
             this.currentDefense = maxDefense;
     }
