@@ -70,15 +70,21 @@ const GameUI:React.FC<GameUIProps> = ({player}) =>{
         setPlayerStats(updatedEntity);
     }
 
-    function attack(target:Entity, damage:number,){
+    function attack(target:Entity, damage:number,flavorText:string){
         const updatedEnemyList = [...enemyList]
-        updatedEnemyList.map((enemy:Entity, index:number) => {
+        updatedEnemyList.map((enemy:Entity) => {
             if(enemy.name === target.name){
                 enemy.takeDamage(damage)
             }
         })
 
         setEnemyList(updatedEnemyList)
+        console.log("Debugging")
+        if(flavorText !== "" && flavorText !== null){
+            setPlayerPrompts(prev => [...prev, flavorText])
+        } else{
+            setPlayerPrompts(prev => [...prev, `I attack ${target.name}.`])
+        }
     }
 }
 

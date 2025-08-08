@@ -9,23 +9,24 @@ const Chat:React.FC<chatProps> = ({playerPrompts, aiResponses}) => {
             {playerPrompts.map((prompt, index) => (
                 <div key={index} className='chat-container'>
                     <p className='player-prompt'>{prompt}</p>
-                            
+                    {aiResponses[index] &&(
                         <div className='message-container'>
-                        {aiResponses[index]
-                            .split(/(".*?")/g)
-                            .filter(Boolean)
-                            .map((part, i) => {
-                                const isDialogue = /^".*"$/.test(part); // Fetches what is in between the double quotes
-                                const final = isDialogue ? part.slice(1, -1,) : part;
-                                return (
-                                <p key={i} className={isDialogue ? 'npc-text' : 'ai-response'}>
-                                    {final}
-                                </p>
+                            {aiResponses[index]
+                                .split(/(".*?")/g)
+                                .filter(Boolean)
+                                .map((part, i) => {
+                                    const isDialogue = /^".*"$/.test(part); // Fetches what is in between the double quotes
+                                    const final = isDialogue ? part.slice(1, -1,) : part;
+                                    return (
+                                    <p key={i} className={isDialogue ? 'npc-text' : 'ai-response'}>
+                                        {final}
+                                    </p>
                                 );
                             })}
                         </div>
-                    </div>
-                ))}
+                    )}
+                </div>
+            ))}
         </>
     )
 }

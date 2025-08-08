@@ -6,13 +6,14 @@ type PlayerTableProps = {
     player:Entity;
     allies: Entity[];
     enemies: Entity[];
-    onAttack: (target: Entity, damage:number) => void;
+    onAttack: (target: Entity, damage:number, flavorText:string) => void;
 }
 
 const PlayerTable:React.FC<PlayerTableProps> = ({player, allies, enemies, onAttack}) => {
     const [showAttackTargets, setShowAttackTargets] = useState<Boolean>(false);
     const [enemyList, setEnemyList] = useState<Entity[]>([])
     const [entityStats, setEntityStats] = useState<Entity>();
+    const [flavorText, setFlavorText] = useState<string>("");
 
     useEffect(() => {
         setEnemyList(enemies)
@@ -37,7 +38,7 @@ const PlayerTable:React.FC<PlayerTableProps> = ({player, allies, enemies, onAtta
                     <h1>test</h1>
                     <h1>test</h1>
                 </div>
-                    <div className='character-column'>
+                <div className='character-column'>
                     <h1>test</h1>
                     <h1>test</h1>
                     <h1>test</h1>
@@ -48,13 +49,14 @@ const PlayerTable:React.FC<PlayerTableProps> = ({player, allies, enemies, onAtta
                     <button onClick={() => setShowAttackTargets(!showAttackTargets)}>Attack</button>
                     {showAttackTargets && (
                     <div>
+                        <input placeholder='Flavor Text' onChange={(e) => setFlavorText(e.target.value)}></input>
                         {enemyList.map((enemy, index) => (
-                        <button key={index} onClick={() => onAttack(enemy, player.currentAttack)}>{enemy.name}</button>
+                            <button key={index} onClick={() => onAttack(enemy, player.currentAttack, flavorText)}>{enemy.name}</button>
                         ))}
                     </div>
                     )}
                 </div>
-                </div>
+            </div>
         </>
     )
 }
