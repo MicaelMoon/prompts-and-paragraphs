@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import GameUI from './components/game-ui'
 import {Entity} from "./types/entity"
 
-const player:Entity = new Entity('Hero', 20, 5, 3);
+const player:Entity = new Entity('Hero', 20, 6, 3);
 
 const App:React.FC = () =>{
   return (

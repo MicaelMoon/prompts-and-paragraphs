@@ -1,2 +1,10 @@
 version 1:
     - Generate encounters 
+
+
+2025-08-05
+    - Testing the attack function in the player-table component. List of enemies is apparently empty.
+
+2025-08-06
+ - Updated enemylist in the attack function now updates and is filled but the ui is not refflecting
+ * Fixed: added the attack function to the game-ui component and sent it to child components as a parameter.

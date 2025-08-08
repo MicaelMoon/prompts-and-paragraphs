@@ -1,5 +1,6 @@
 import {Entity} from '../types/entity'
 import '../styles/battle-menu.css'
+import { useEffect, useState } from 'react';
 
 type BattleMenuProps = {
     player: Entity;
@@ -9,10 +10,14 @@ type BattleMenuProps = {
 
 
 const BattleMenu:React.FC<BattleMenuProps> = ({player, enemies, allies}) => {
+    const [enemyList, setEnemyList] = useState<Entity[]>([]);
+    
+    useEffect(() => {
+        setEnemyList(enemies)
+    }, [enemyList])
 
     return (
         <div className='container battle-menu'>
-            
             <div className='column ally-column'>
                 {allies.map((ally, index) => (
                     <div key={index} className={`entity-card ${ally.name === player.name ? 'player-card' : 'ally-card'} `}>
@@ -24,7 +29,7 @@ const BattleMenu:React.FC<BattleMenuProps> = ({player, enemies, allies}) => {
                 ))}
             </div>
             <div className='column enemy-column'>
-                {enemies.map((enemy, index) => (
+                {enemyList.map((enemy, index) => (
                     <div key={index} className='entity-card enemy-card'>   
                         <p>{enemy.name}</p>
                         <p>Health: {enemy.currentHealth}/{enemy.maxHealth}</p>

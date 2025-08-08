@@ -11,7 +11,7 @@ type GameUIProps = {
 
 const GameUI:React.FC<GameUIProps> = ({player}) =>{
     const [party, setParty] = useState<Entity[]>([]);
-    const [enemies, setEnemies] = useState<Entity[]>([]);
+    const [enemyList, setEnemyList] = useState<Entity[]>([]);
     const [playerStats, setPlayerStats] = useState<Entity>(player);
     const [playerPrompts, setPlayerPrompts] = useState<string[]>([]);
     const [aiResponses, setAiResponses] = useState<string[]>([])
@@ -34,10 +34,10 @@ const GameUI:React.FC<GameUIProps> = ({player}) =>{
             new Entity('Henry', 20, 5, 5),
             new Entity('Elara', 16, 4, 3)
         ])
-    })
+    }, [])
 
     useEffect(() => {
-        setEnemies([
+        setEnemyList([
             new Entity('Troll', 25, 7, 5),
             new Entity('Goblin', 14, 4, 1),
             new Entity('Hound', 7, 3, 0),
@@ -48,9 +48,9 @@ const GameUI:React.FC<GameUIProps> = ({player}) =>{
         <>
             <div className="container">
                 <div className="column game-column">
-                    <PlayerTable player={playerStats}/>
+                    <PlayerTable player={playerStats} allies={party} enemies={enemyList} onAttack={attack}/>
                     <hr/>
-                    <BattleMenu player={playerStats} allies={party} enemies={enemies}/>
+                    <BattleMenu player={playerStats} allies={party} enemies={enemyList}/>
                 </div>
 
                 <div className="column chat-column">
@@ -62,12 +62,29 @@ const GameUI:React.FC<GameUIProps> = ({player}) =>{
     )
     
     function debug(entity:Entity){
-        const updated = Object.assign(
+        const updatedEntity = Object.assign(
             Object.create(Object.getPrototypeOf(entity)),
             entity
         );
-        updated.takeDamage(4);
-        setPlayerStats(updated);
+        updatedEntity.takeDamage(4);
+        setPlayerStats(updatedEntity);
+    }
+
+    function attack(target:Entity, damage:number,flavorText:string){
+        const updatedEnemyList = [...enemyList]
+        updatedEnemyList.map((enemy:Entity) => {
+            if(enemy.name === target.name){
+                enemy.takeDamage(damage)
+            }
+        })
+
+        setEnemyList(updatedEnemyList)
+        console.log("Debugging")
+        if(flavorText !== "" && flavorText !== null){
+            setPlayerPrompts(prev => [...prev, flavorText])
+        } else{
+            setPlayerPrompts(prev => [...prev, `I attack ${target.name}.`])
+        }
     }
 }
 
